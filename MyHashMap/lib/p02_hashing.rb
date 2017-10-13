@@ -4,11 +4,24 @@ end
 
 class Array
   def hash
+    return self.hash if !self.is_a?(Array)
     hash_code = 0
-    self.each_with_index { |el, i| hash_code += el.hash * i.hash }
+
+    if self.empty?
+      hash_code = nil.hash
+    else
+    #until !self.is_a?(Array) [1.hash, 2.hash, ,3.hash ]
+      self.each_with_index do |el, i| # [], 0
+        if el.is_a?(Array)
+          el.hash # el == Array
+        else
+          hash_code += el.hash * i.hash
+        end
+      end
+    end
+
     hash_code
   end
-
 end
 
 class String
